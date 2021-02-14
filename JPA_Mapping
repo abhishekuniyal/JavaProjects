@@ -1,0 +1,29 @@
+One to One:
+	@OneToOne(fetch = FectType.Lazy, cascade = CascadeType.ALL, mappedBy = "user")
+	private UserProfile userProfile;			==> User.java (Not the owner)  (Mappedby always with Non-owner)
+
+	@OneToOne(fetch = FectType.Lazy, optional = false)
+	@JoinColumn(name = "user_id")				==> UserProfile.java (Owner)   (@joincolumn always with owner)
+	private User user;			
+	
+
+One to Many: (Uni Directional)
+	No mapping in Paent Post class
+
+	@ManyToOne(fetch = FectType.Lazy, optional = false)
+	@JoinColumn(name = "post_id", nullable = false)				==> Comment.java (Owner)
+	@JsonIgnore
+	private Post post;			
+
+Many to Many:
+
+	@ManyToMany(fetch = FectType.Lazy, cascade = CascadeType.ALL)
+	@JoinTable(name ="post_tag",
+		joinColumns ={ @joinColumn(name = "post_id")},				==> Post.java (Owner class)
+		inverseJoinColumns ={@inverseJoinColumn(name = "tag_id")})
+	private Set<tag> tag = new HashSet<>();
+
+	@ManyToMany(fetch = FectType.Lazy, optional = false, mappedBy = tag)
+	private Set<Post> post= new HashSet<>();						==> Tag.java(Not owner)
+	
+
