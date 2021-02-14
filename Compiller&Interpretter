@@ -1,0 +1,59 @@
+.java --> compiles to --> .class --> JVM picks and executes
+
+JVM has below 3 components
+1.) Class Loaders
+  a.) LOADING
+    i.) Bootstrap loaded(rt.jar)
+    ii.) Extension class Loader(jre/lib/ext)
+    iii.) Application class Loader(classpath , -CP)
+  b.) LINKING
+    i.) verify (the byte code)
+    ii.) prepare (set instance variable as default value)
+    iii.) resolve (if wrong, NoDef found exc)
+  c.) INITIALIZATION
+    initialize the default values with atual values
+2.) Runtime Data Areas
+    a.) Method Area (previous PERMGEN now meta)
+    b.) Heap
+    c.) Java Stack (Thread safe and reason fo stackoverflow error)
+    d.) PC Registers
+    e.) Native Method stack
+3.) Execution Engine
+    a.) Interpretor
+    b.) HOTSPOT Profiler
+    c.) JIT Complier
+      i.) C1 Compiler 
+      ii.) C2 Compiler
+    d.) GC
+    
+    tiered compilation
+    C1(10000)                            vs          C2
+    -----------------------------------------------------------------------------------
+    Faster                                         Slower
+    Less optimized code                            More resource hungary
+    Good for GUI apps                              More optimized(Faster code)
+                                                   Good for server side apps
+    e.g if a statement is used 100 times use C1    e.g if a method is used 100 times. use HIGH performace on that method .uses C2                        
+                            
+
+Flow is like beow:::
+byte code --> Interpretor(interprets every line using bytecode instruction as per arch e.g x86 ) and convert to machine redable instruction--> and  machine runs the instruction to show the o/p
+But what if we have similar line used multiple times , in that case interpretor will interpret each line and create the machine code again . This can be otimized using JIT
+
+e.g 
+int a =10;
+int b=20;
+int c=a+b;
+System.out.print(c);
+System.out.print(c);
+System.out.print(c);
+
+with JIT in place JVM will save an REFERNCE against the "MACHINE redable code" in the "CODE CACHE (max of 240 MB)" that SYSO statement will be required again. SO next time interprtor encounters this SYSO will NOT create a machine rdable code again INSTEAD directly calls the CODE_CACHE and gets the converted machine redable code against SYSO.
+
+Some of Optimization techniques: (there are 20 more techniques)
+i.) Dead code
+ii.) Escape analysis : moving objects created in methods and never returned, to stack instead of heap
+iii.) Loops: combining loops,unrolling loops, loop inversion etc.
+iv.) Method inlining: moving bodies of small methodswithin the calling methods.
+v.) Lock removal: if only 1 thread ever uses lock , remove it.
+vi.) Null check eliminataion: if variable is never null,remove the null check code.
