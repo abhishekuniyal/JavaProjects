@@ -57,3 +57,21 @@ iii.) Loops: combining loops,unrolling loops, loop inversion etc.
 iv.) Method inlining: moving bodies of small methodswithin the calling methods.
 v.) Lock removal: if only 1 thread ever uses lock , remove it.
 vi.) Null check eliminataion: if variable is never null,remove the null check code.
+
+
+****** AOT from Java 9*****
+AOT compilation is one of the way of improving performance of java programs and in particuar the startup time of the JVM.
+The JVM executes java bytecode and compiles frequently execute code to native code . THis is called JIT compilation. The JVM decides which code to JIT compile based on profiling information collected during execution.
+
+While this technique enables JVM to produce highly optimize code and improves peak performance , the startup time is likely not optimal, as the executed code is not yet JIT compiled.. AOT AIMS to IMPROVE this so called warming -UP PEriod.The compiler used for AOT is GRAAL.
+
+e,g javac Hello.java  ==> produces hello.class
+jaotc --output hello.so hello.class  ==> fed .class to aot compiler and produces heelo.so library
+java -XX:AOTLibrary=./hello.so hello
+
+The AOT compiled library contains a class fingerprint, which must match the fingerprint of the .class file.
+
+
+
+
+
