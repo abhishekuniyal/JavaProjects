@@ -1,0 +1,35 @@
+Java Mememory ::
+   STack and Heap
+
+  -jms512m -jmx1024m
+  -verbose:gc ::print when gc takes place
+  -Xmn256m (to set 256 mb to Young generation out of heap)
+  -XX:HepDumpOnOutOfMemory (creates a heap dump file on OOM)
+-XX:MaxPermSize = 512m :: perm gen
+GC :
+   system.gc() //finalize()
+Algorithms used:
+   i.) Mark and sweep : marks and has STW event
+   ii.) Generation GC
+
+Type of Gcollectors:
+  i.) Serial: Single thread so app is on hold while GC works(down't matter if our app is single or 			multi-threaded) : -XX:+UseSerialGC
+  ii.) Parallel(Throughput Collector): multiple threads performing GC on young generation in 			parallel: -XX:+UseParallelGC
+  ii.) Mostly oncurrent: stw for mark not for sweep.
+	a.) mark and sweep: -XX:+UseConcMarkSweepGC
+	b.) G1 collector: -XX:+UseG1GC
+
+java -XX:+PrintCommandLineFlags: to know which GC ur system uses
+	   Young(part of heap) (Minor collection)      Old(part of heap) (Major Collection)           Metaspace(notpart of heap
+ 	   Eden  s1  s2 (8 movement surviour s1-2 wil move to old gen)
+	Visua VM has a plugin "Visual GC" which can show s1 s2 and old spaces.
+If old and eden spaces are almost full there is something wrong
+
+for memory leaks to identifiy use THread dump and read it n MAT.
+
+Type of references (java.lang.ref.):
+  1.) Strong
+  2.) weak
+  3.) soft : even if obj available for GC will be alive untill JVM is full 
+  4.) phantm
+ 
