@@ -9,7 +9,7 @@ JVM has below 3 components
   b.) LINKING
     i.) verify (the byte code)
     ii.) prepare (set instance variable as default value)
-    iii.) resolve (if wrong, NoDef found exc)
+    iii.) resolve (if wrong, NoDef found ERROR)
   c.) INITIALIZATION
     initialize the default values with atual values
 2.) Runtime Data Areas
