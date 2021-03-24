@@ -1,0 +1,48 @@
+1.) PROPAGATION REQUIRED
+   - Transaction works on public methods
+   - doesnt work by default on same class methods(required oher bean method to call) 
+     https://www.programmersought.com/article/377888139/  https://www.programmersought.com/article/9729959966/
+   - works only for RUNTIMEEXCEPTION
+   - for CHECKED EXCEPTION use rollbackOn=classname.class and MUST Throw the exception dont catch it.
+
+e.g 
+	@Service
+	public class TutorialServiceImpl implements TutorialService {
+	@Autowired
+	TutorialRepository tutorialRepository;
+	@Autowired
+	TutorialServiceParallel tutorialServiceParallel;
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public void createTutorial() {
+		tutorialRepository.save(new Tutorial("title2", "desc2", false));
+		tutorialRepository.save(new Tutorial("title3", "desc3", false));
+		try {
+			tutorialServiceParallel.createTut3();
+		} catch (RuntimeException e) {
+			// TODO: handle exception
+		}
+	 }
+	}
+
+	@Service
+	public class TutorialServiceImplParallel implements TutorialServiceParallel{
+	@Autowired
+	TutorialRepository tutorialRepository;
+	@Transactional(value = TxType.REQUIRED)
+	public void createTut3() {
+		tutorialRepository.save(new Tutorial("title3", "desc3", false));
+		tutorialRepository.save(new Tutorial("title4", "desc4", false));
+	    throw new RuntimeException("DummyException: this should cause rollback of both inserts!");
+		//throw new Exception("");
+	 }
+	}
+
+2.) In case of throowing CHECKED EXCEPTION below lines to be changed as below
+		@Transactional(value = TxType.REQUIRED, rollbackOn=Exception.class)
+		public void createTutorial() throws Exception{
+
+		public void createTut3() throws Exception
+		//throw new RuntimeException("DummyException: this should cause rollback of both inserts!");
+		throw new Exception("");
+
