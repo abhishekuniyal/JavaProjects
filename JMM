@@ -26,6 +26,9 @@ java -XX:+PrintCommandLineFlags: to know which GC ur system uses
 If old and eden spaces are almost full there is something wrong
 
 for memory leaks to identifiy use THread dump and read it n MAT.
+Analyze by opening Remote JMX port
+
+java -jar -Xmx512m -Dspring.config.additional-location=/opt/abc/app.yaml -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -XX:+HepDumpOnOutOfMemoryError -Xmx1G -XX:HeapDumpPath=/opt/abc abc.jar
 
 Type of references (java.lang.ref.):
   1.) Strong
